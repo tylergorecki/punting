@@ -13,7 +13,7 @@ ui <- fluidPage(
       # Use numericInput with a min and max value
       numericInput("num1", "Punting Team Yardline:", value = 1, min = 1, max = 4),
       numericInput("num2", "Ball landing x:", value = 1, min = 1, max = 4),
-      numericInput("num3", "Enter Number 3:", value = 1, min = 1, max = 4),
+      numericInput("num3", "Ball landing y:", value = 1, min = 1, max = 4),
       br(),
       actionButton("calculate", "Calculate Product")
     ),
