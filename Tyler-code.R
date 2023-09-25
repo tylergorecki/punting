@@ -680,5 +680,42 @@ returned_catches %>% ggplot(aes(x = WPasplayed, y = WPifFC)) +
 ####################
 
 
+############
+  
+# Load the required libraries
+library(ggplot2)
 
+# Create a football field background image
+field_image <- ggplot() +
+  xlim(-100, 100) +
+  ylim(-50, 50) +
+  theme_void() +
+  theme(plot.background = element_rect(fill = "green"), 
+        panel.background = element_rect(fill = "green"), 
+        plot.margin = margin(0, 0, 0, 0)) + 
+  geom_rect(xmin = -100, xmax = 100, ymin = -50, ymax = 50, fill = NA, color = "black", size = 2)
+
+# Overlay black field lines
+field_image <- ggplot() +
+  geom_segment(aes(x = -110, y = -50, xend = 110, yend = -50), color = "green", size = 280) +
+  geom_segment(aes(x = 0, y = -50, xend = 0, yend = 50), color = "black", size = 1) +
+  geom_segment(aes(x = -110, y = -50, xend = 110, yend = -50), color = "black", size = 1) +
+  geom_segment(aes(x = -110, y = 50, xend = 110, yend = 50), color = "black", size = 1) + 
+  geom_segment(aes(x = 110, y = -50, xend = 110, yend = 50), color = "black", size = 1) + 
+  geom_segment(aes(x = -110, y = -50, xend = -110, yend = 50), color = "black", size = 1) + 
+  geom_segment(aes(x = 100, y = -50, xend = 100, yend = 50), color = "black", size = 1) + 
+  geom_segment(aes(x = -100, y = -50, xend = -100, yend = 50), color = "black", size = 1)
+
+print(field_image)
+
+# Create some sample points (replace with your own data)
+points_data <- data.frame(x = c(0, 20, -20), y = c(0, 10, -10))
+
+# Overlay points on the field
+field_image <- field_image +
+  geom_point(data = points_data, aes(x = x, y = y), color = "brown", fill = "brown", size = 4)
+
+# Display the football field with points
+print(field_image)
+  
   
