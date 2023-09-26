@@ -1,5 +1,8 @@
 library(shiny)
 library(shinyjs)
+library(ggplot2)
+library(plotly)
+source("gg_field.R")
 
 # Define the user interface (UI)
 ui <- fluidPage(
@@ -11,30 +14,36 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       # Use numericInput with a min and max value
-      numericInput("num1", "Punting Team Yardline:", value = 1, min = 1, max = 4),
-      numericInput("num2", "Ball landing x:", value = 1, min = 1, max = 4),
-      numericInput("num3", "Ball landing y:", value = 1, min = 1, max = 4),
+      numericInput("num1", "Punting Team Yardline:", value = 25, min = 0, max = 99),
+      checkboxInput("check1", "Punt Team Side", value = 0),
+      numericInput("num2", "Punt Length:", value = 0, min = 0, max = 99),
+      checkboxInput("check2", "Out of Bounds", value = 0),
+      checkboxInput("check3", "Touchback", value = 0),
       br(),
       actionButton("calculate", "Calculate Product")
     ),
     
     mainPanel(
       h4("Decision Output:"),
-      verbatimTextOutput("result")
+      verbatimTextOutput("result"),
+      plotOutput("plot1", height = "650px")
     )
   )
 )
 
 # Define the server logic
 server <- function(input, output, session) {
+  output$plot1 <- renderPlot({
+    ggplot() +
+    gg_field(direction = "vert", buffer = 2)
+  })  
   observeEvent(input$calculate, {
     # Get the values from the input fields
     num1 <- input$num1
     num2 <- input$num2
-    num3 <- input$num3
     
     # Calculate the product
-    product <- num1 * num2 * num3
+    product <- num1 * num2
     
     # Display the result
     output$result <- renderText({
@@ -58,14 +67,7 @@ server <- function(input, output, session) {
       shinyjs::enable("calculate")
     }
   })
-  
-  observe({
-    if (input$num3 > 4 || input$num3 < 1) {
-      shinyjs::disable("calculate")
-    } else {
-      shinyjs::enable("calculate")
-    }
-  })
+
 }
 
 # Run the Shiny app
