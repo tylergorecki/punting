@@ -5,6 +5,11 @@ library(plotly)
 library(shinyTime)
 source("gg_field.R")
 
+nfl_abbrevs <- c("ARI", "ATL", "BAL", "BUF", "CAR", "CHI", "CIN", "CLE", "DAL", 
+                 "DEN", "DET", "GB", "HOU", "IND", "JAX", "KC", "MIA", "MIN", 
+                 "NE", "NO", "NYG", "NYJ", "LV", "PHI", "PIT", "LAC", "SF", "SEA", 
+                 "LAR", "TB", "TEN", "WAS")
+
 # Define the user interface (UI)
 ui <- fluidPage(
   titlePanel("Punt Decision Calculator"),
@@ -20,13 +25,13 @@ ui <- fluidPage(
       checkboxInput("outbounds", "Out of Bounds", value = 0),
       checkboxInput("touchback", "Touchback", value = 0),
       checkboxInput("receive_2h_ko", "Receive 2nd Half Kickoff", value = 0),
-      selectInput("home_team", "Home Team", c("")),
-      selectInput("posteam", "Possession Team", c()),
+      selectInput("home_team", "Home Team", nfl_abbrevs),
+      selectInput("posteam", "Possession Team", nfl_abbrevs),
       numericInput("score_differential", "Score Differential", value = 0, min = 0, max = 1000),
-      numericInput("quarter", "Quarter", value = 1, min = 1, max = 4),
+      selectInput("quarter", "Quarter", c(1,2,3,4,5)),
       timeInput("game_time", "Game Time:", value = hms::as.hms("00:15:00")),
       numericInput("spread_line", "Spread Line", value = 0, min = -1000, max = 1000),
-      numericInput("down", "Down", value = 1, min = 1, max = 4),
+      selectInput("down", "Down", c(1,2,3,4)),
       numericInput("ydstogo", "Yards to Go", value = 10, min = 0, max = 100),
       numericInput("yardline", "Yardline", value = 25, min = 0, max = 50),
       checkboxInput("posteam_yard_side", "Possession Team Side", value = 0),
@@ -65,21 +70,21 @@ server <- function(input, output, session) {
   })
   
   # Use shinyjs to disable/enable inputs based on value
-  observe({
-    if (input$num1 > 4 || input$num1 < 1) {
-      shinyjs::disable("calculate")
-    } else {
-      shinyjs::enable("calculate")
-    }
-  })
-  
-  observe({
-    if (input$num2 > 10 || input$num2 < 1) {
-      shinyjs::disable("calculate")
-    } else {
-      shinyjs::enable("calculate")
-    }
-  })
+  # observe({
+  #   if (input$num1 > 4 || input$num1 < 1) {
+  #     shinyjs::disable("calculate")
+  #   } else {
+  #     shinyjs::enable("calculate")
+  #   }
+  # })
+  # 
+  # observe({
+  #   if (input$num2 > 10 || input$num2 < 0) {
+  #     shinyjs::disable("calculate")
+  #   } else {
+  #     shinyjs::enable("calculate")
+  #   }
+  # })
 
 }
 
