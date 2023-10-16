@@ -56,6 +56,34 @@ server <- function(input, output, session) {
     gg_field(direction = "vert", buffer = 2)
   })  
   observeEvent(input$calculate, {
+    
+    print(input$receive_2h_ko)
+    receive_2h_ko <- ifelse(input$receive_2h_ko == TRUE, 1, 0)
+
+    # convert time to seconds
+    half_secs <- 900
+    game_secs <- 900
+    
+    data <- tibble::tibble(
+      'receive_2h_ko' = receive_2h_ko, 
+      'home_team' = 1, #input$home_team, 
+      'posteam' = 1, #input$posteam,
+      'score_differential' = input$score_differential, 
+      'half_seconds_remaining' = half_secs, 
+      'game_seconds_remaining' = game_secs, 
+      'spread_line' = input$spread_line,
+      'down' = input$down, 
+      'ydstogo' = input$ydstogo, 
+      'yardline_100' = input$yardline, 
+      'posteam_timeouts_remaining' = input$posteam_timeouts_remaining, 
+      'defteam_timeouts_remaining' = input$defteam_timeouts_remaining
+    )
+    
+    print('test')
+    
+    wp <- nflfastR::calculate_win_probability(data) %>% dplyr::select(wp)
+    
+
     # Get the values from the input fields
     num1 <- input$num1
     num2 <- input$num2
@@ -65,7 +93,7 @@ server <- function(input, output, session) {
     
     # Display the result
     output$result <- renderText({
-      paste("Product =", product)
+      paste("Win Probability =", wp)
     })
   })
   
