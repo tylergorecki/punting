@@ -2,6 +2,7 @@ library(shiny)
 library(shinyjs)
 library(ggplot2)
 library(plotly)
+library(shinyTime)
 source("gg_field.R")
 
 # Define the user interface (UI)
@@ -15,10 +16,22 @@ ui <- fluidPage(
     sidebarPanel(
       # Use numericInput with a min and max value
       numericInput("num1", "Punting Team Yardline:", value = 25, min = 0, max = 99),
-      checkboxInput("check1", "Punt Team Side", value = 0),
       numericInput("num2", "Punt Length:", value = 0, min = 0, max = 99),
-      checkboxInput("check2", "Out of Bounds", value = 0),
-      checkboxInput("check3", "Touchback", value = 0),
+      checkboxInput("check1", "Out of Bounds", value = 0),
+      checkboxInput("check2", "Touchback", value = 0),
+      checkboxInput("check3", "Receive 2nd Half Kickoff", value = 0),
+      selectInput("select1", "Home Team", c("")),
+      selectInput("select2", "Possession Team", c()),
+      numericInput("num3", "Score Differential", value = 0, min = 0, max = 1000),
+      numericInput("num4", "Quarter", value = 1, min = 1, max = 4),
+      timeInput("time1", "Game Time:", value = hms::as.hms("00:15:00")),
+      numericInput("num5", "Spread Line", value = 0, min = -1000, max = 1000),
+      numericInput("num6", "Down", value = 1, min = 1, max = 4),
+      numericInput("num7", "Yards to Go", value = 10, min = 0, max = 100),
+      numericInput("num8", "Yardline", value = 25, min = 0, max = 50),
+      checkboxInput("check4", "Possession Team Side", value = 0),
+      numericInput("num9", "Posession Team Timeouts Remaining", value = 3, min = 0, max = 3),
+      numericInput("num10", "Defensive Team Timeouts Remaining", value = 3, min = 0, max = 3),
       br(),
       actionButton("calculate", "Calculate Product")
     ),
