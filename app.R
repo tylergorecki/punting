@@ -59,10 +59,24 @@ server <- function(input, output, session) {
     
     receive_2h_ko <- ifelse(input$receive_2h_ko == TRUE, 1, 0)
 
-    # convert time to seconds
-    half_secs <- 900
-    game_secs <- 900
+    # Convert time to a numeric value (total seconds)
+    game_time <- input$game_time
+    minute <- as.numeric(format(game_time, "%M"))
+    second <- as.numeric(format(game_time, "%S"))
     
+    quarter_time <- minute * 60 + second
+    qtr <- as.numeric(input$quarter)
+    qtr <- ifelse(qtr == 5, 4, qtr)
+    quarters_rem <- 4 - qtr
+
+    numeric_time <- quarters_rem * 900 + quarter_time
+    
+    half_secs <- ifelse(numeric_time > 900, 900, numeric_time)
+    game_secs <- numeric_time
+    
+    # Convert yardline
+    
+    yardline <- ifelse(input$posteam_yard_side == 1, input$yardline + 50, input$yardline)
     
     # WIN PROBABILITY FUNCTION
     data <- tibble::tibble(
@@ -75,7 +89,7 @@ server <- function(input, output, session) {
       'spread_line' = input$spread_line,
       'down' = as.numeric(input$down), 
       'ydstogo' = as.numeric(input$ydstogo), 
-      'yardline_100' = input$yardline, 
+      'yardline_100' = yardline, 
       'posteam_timeouts_remaining' = input$posteam_timeouts_remaining, 
       'defteam_timeouts_remaining' = input$defteam_timeouts_remaining
     )
