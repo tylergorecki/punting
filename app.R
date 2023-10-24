@@ -75,8 +75,18 @@ server <- function(input, output, session) {
     game_secs <- numeric_time
     
     # Convert yardline
-    
     yardline <- ifelse(input$posteam_yard_side == 1, input$yardline + 50, input$yardline)
+    
+    # Get field colors
+    team_field <- merge(nflfastR::teams_colors_logos, data.frame(team_abbr = input$home_team))
+
+    output$plot1 <- renderPlot({
+      ggplot() +
+        gg_field(direction = "vert", buffer = 2,
+                 field_color = team_field$team_color,
+                 sideline_color = team_field$team_color2,
+                 endzone_color = team_field$team_color)
+      })
     
     # WIN PROBABILITY FUNCTION
     data <- tibble::tibble(
