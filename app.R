@@ -80,12 +80,15 @@ server <- function(input, output, session) {
     # Get field colors
     team_field <- merge(nflfastR::teams_colors_logos, data.frame(team_abbr = input$home_team))
 
+    df <- data.frame(x=yardline + 10, y=26.5)
+    
     output$plot1 <- renderPlot({
-      ggplot() +
+      ggplot(df, aes(x,y)) +
         gg_field(direction = "vert", buffer = 2,
                  field_color = team_field$team_color,
                  sideline_color = team_field$team_color2,
-                 endzone_color = team_field$team_color)
+                 endzone_color = team_field$team_color) + 
+        geom_point(color = 'yellow', size = 5)
       })
     
     # WIN PROBABILITY FUNCTION
@@ -104,6 +107,7 @@ server <- function(input, output, session) {
       'defteam_timeouts_remaining' = input$defteam_timeouts_remaining
     )
     
+    # as played
     wp <- nflfastR::calculate_win_probability(data) %>% dplyr::select(wp)
     wp <- paste(round(wp * 100, 2), "%")
     
