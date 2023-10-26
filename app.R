@@ -116,23 +116,6 @@ server <- function(input, output, session) {
       paste(input$posteam, "Win Probability =", wp)
     })
   })
-  
-  # Use shinyjs to disable/enable inputs based on value
-  # observe({
-  #   if (input$num1 > 4 || input$num1 < 1) {
-  #     shinyjs::disable("calculate")
-  #   } else {
-  #     shinyjs::enable("calculate")
-  #   }
-  # })
-  # 
-  # observe({
-  #   if (input$num2 > 10 || input$num2 < 0) {
-  #     shinyjs::disable("calculate")
-  #   } else {
-  #     shinyjs::enable("calculate")
-  #   }
-  # })
 
 }
 
