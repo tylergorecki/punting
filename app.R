@@ -113,7 +113,10 @@ server <- function(input, output, session) {
     
     # Display the result
     output$result <- renderText({
-      paste(input$posteam, "Win Probability =", wp)
+      text1 <- paste(input$posteam, "Win Probability - as played =", wp) 
+      text2 <- paste(input$posteam, "Win Probability - fair caught (same for now) =", wp)
+      
+      paste(text1, text2, sep = '\n')
     })
   })
 
