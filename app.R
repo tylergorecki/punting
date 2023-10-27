@@ -80,7 +80,7 @@ server <- function(input, output, session) {
     # Get field colors
     team_field <- merge(nflfastR::teams_colors_logos, data.frame(team_abbr = input$home_team))
 
-    df <- data.frame(x=yardline + 10, y=26.5)
+    df <- data.frame(x=c(yardline + 10, input$punt_yardline + 10), y=c(25, 28))
     
     output$plot1 <- renderPlot({
       ggplot(df, aes(x,y)) +
