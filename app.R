@@ -12,7 +12,8 @@ nfl_abbrevs <- c("ARI", "ATL", "BAL", "BUF", "CAR", "CHI", "CIN", "CLE", "DAL",
 
 # Define the user interface (UI)
 ui <- fluidPage(
-  titlePanel("Punt Decision Calculator"),
+  tags$style('.container-fluid {background-color: #1B4D3E; color: white; height: 100%}'),
+  titlePanel("Punt Decision Calculator", tags$head(tags$style(HTML('*{font-family: "Rockwell"};')))),
   
   # Add shinyjs to enable/disable the input fields
   useShinyjs(),
@@ -21,7 +22,7 @@ ui <- fluidPage(
     style = "background-color: $F1F1F1", 
     cellWidths = c("32.5%", "32.5%", "35%"),
     div(
-      style = "background-color: #F1F1F1; height: 670px; padding: 5px",
+      style = "color: white; background-color: #00693E; height: 670px; padding: 5px; border-radius: 12px",
       # Use numericInput with a min and max value
       numericInput("punt_yardline", "Punting Team Yardline:", value = 25, min = 0, max = 99),
       numericInput("punt_length", "Punt Length:", value = 0, min = 0, max = 99),
@@ -35,7 +36,7 @@ ui <- fluidPage(
       timeInput("game_time", "Game Time:", value = hms::as.hms("00:15:00"))
     ),
     div(
-      style = "background-color: #F1F1F1; height: 670px; padding: 5px",
+      style = "color: white; background-color: #00693E; height: 670px; padding: 5px; border-radius: 12px",
       numericInput("spread_line", "Spread Line", value = 0, min = -1000, max = 1000),
       selectInput("down", "Down", c(1,2,3,4)),
       numericInput("ydstogo", "Yards to Go", value = 10, min = 0, max = 100),
@@ -48,6 +49,7 @@ ui <- fluidPage(
     ),
     
     div(
+      style = "color: white; height: 670px; padding: 5px",
       h4("Decision Output:"),
       verbatimTextOutput("result"),
       plotOutput("plot1", height = "582.5px", width = "500px")
